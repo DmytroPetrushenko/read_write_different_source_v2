@@ -1,2 +1,4 @@
-package com.knubisoft.strategy;public interface Strategy {
+package com.knubisoft.strategy;
+
+public interface Strategy {
 }

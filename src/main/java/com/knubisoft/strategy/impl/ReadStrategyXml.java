@@ -2,21 +2,20 @@ package com.knubisoft.strategy.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.knubisoft.annotation.XML;
+import com.knubisoft.annotation.Xml;
 import com.knubisoft.dto.DataReadWriteSource;
 import com.knubisoft.dto.Table;
 import com.knubisoft.dto.impl.FileReadWriteSource;
-import com.knubisoft.strategy.Strategy;
+import com.knubisoft.strategy.ReadStrategy;
 import com.knubisoft.utils.JacksonTableBuilderUtils;
+import java.lang.annotation.Annotation;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import lombok.SneakyThrows;
 import org.apache.commons.io.FilenameUtils;
 
-import java.lang.annotation.Annotation;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-public class StrategyXml implements Strategy {
+public class ReadStrategyXml implements ReadStrategy {
     private final JacksonTableBuilderUtils builder = JacksonTableBuilderUtils.getBuilder();
 
     @Override
@@ -29,8 +28,9 @@ public class StrategyXml implements Strategy {
     @Override
     @SneakyThrows
     public Table createTableByStrategy(DataReadWriteSource<?> data, Class<?> clazz) {
-        JsonNode tree = createNodeTree(((FileReadWriteSource) data).getContent(), getClassName(clazz));
-        List<String> mapping =  builder.createMapping(tree);
+        JsonNode tree = createNodeTree(((FileReadWriteSource) data).getContent(),
+                getClassName(clazz));
+        List<String> mapping = builder.createMapping(tree);
         Map<Integer, Map<String, String>> table = builder.createTable(tree, mapping);
         return new Table(table);
     }
@@ -38,8 +38,8 @@ public class StrategyXml implements Strategy {
     private String getClassName(Class<?> clazz) {
         Annotation[] annotations = clazz.getAnnotations();
         return Arrays.stream(annotations)
-                .filter(annotation -> annotation.annotationType().equals(XML.class))
-                .map(annotation -> ((XML) annotation).name())
+                .filter(annotation -> annotation.annotationType().equals(Xml.class))
+                .map(annotation -> ((Xml) annotation).name())
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("The name of this class: "
                         + clazz + " is absent for XML"));
@@ -51,6 +51,4 @@ public class StrategyXml implements Strategy {
         JsonNode mainNode = mapper.readTree(file);
         return mainNode.get(name);
     }
-
-
 }

@@ -1,4 +1,4 @@
-package com.knubisoft.util;
+package com.knubisoft.utils;
 
 import java.io.FileInputStream;
 import java.net.URL;

@@ -1,4 +1,4 @@
-package knubisoft.util;
+package com.knubisoft.utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.ArrayList;
@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import knubisoft.dto.Table;
 
 public class JacksonTableBuilderUtils {
     private static JacksonTableBuilderUtils builder;
@@ -19,30 +18,27 @@ public class JacksonTableBuilderUtils {
         return builder;
     }
 
-    public Table buildTable(JsonNode jsonNodeTree, Map<Integer, String> mapping) {
-        Map<Integer, Map<String, String>> map = IntStream.range(0, jsonNodeTree.size())
+    public List<String> createMapping(JsonNode jsonNode) {
+        List<String> result = new ArrayList<>();
+        Iterator<String> names = jsonNode.get(0).fieldNames();
+        while (names.hasNext()) {
+            result.add(names.next());
+        }
+        return result;
+    }
+
+    public Map<Integer, Map<String, String>> createTable(JsonNode jsonNode,
+                                                         List<String> mapping) {
+        return IntStream.range(0, jsonNode.size())
                 .boxed()
                 .collect(Collectors.toMap(num -> num,
-                        num -> buildRow(mapping, jsonNodeTree.get(num))));
-        return new Table(map);
+                        num -> createRow(jsonNode.get(num), mapping)));
     }
 
-    private Map<String, String> buildRow(Map<Integer, String> mapping, JsonNode jsonNode) {
-        return IntStream.range(0, mapping.size())
+    private Map<String, String> createRow(JsonNode jsonNode, List<String> mapping) {
+        return IntStream.range(0, jsonNode.size())
                 .boxed()
                 .map(mapping::get)
-                .collect(Collectors.toMap(name -> name,
-                        name -> jsonNode.get(name).asText()));
-    }
-
-    public Map<Integer, String> buildMapping(JsonNode jsonNode) {
-        List<String> list = new ArrayList<>();
-        Iterator<String> stringIterator = jsonNode.fieldNames();
-        while (stringIterator.hasNext()) {
-            list.add(stringIterator.next());
-        }
-        return IntStream.range(0, list.size())
-                .boxed()
-                .collect(Collectors.toMap(num -> num, list::get));
+                .collect(Collectors.toMap(name -> name, name -> jsonNode.get(name).asText()));
     }
 }

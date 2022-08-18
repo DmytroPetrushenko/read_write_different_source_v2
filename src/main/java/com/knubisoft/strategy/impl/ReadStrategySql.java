@@ -3,16 +3,18 @@ package com.knubisoft.strategy.impl;
 import com.knubisoft.dto.DataReadWriteSource;
 import com.knubisoft.dto.Table;
 import com.knubisoft.dto.impl.SqlReadWriteSource;
-import com.knubisoft.strategy.Strategy;
-import lombok.SneakyThrows;
-
+import com.knubisoft.strategy.ReadStrategy;
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import lombok.SneakyThrows;
 
-public class StrategySql implements Strategy {
+public class ReadStrategySql implements ReadStrategy {
     @Override
     public boolean isApplied(DataReadWriteSource<?> data) {
         return data instanceof SqlReadWriteSource;
@@ -25,7 +27,7 @@ public class StrategySql implements Strategy {
         List<String> namesList = getFieldsName(clazz);
         ResultSet resultSet = ((SqlReadWriteSource) data).getContent();
         while (resultSet.next()) {
-             rowList.add(createRow(resultSet, namesList));
+            rowList.add(createRow(resultSet, namesList));
         }
         Map<Integer, Map<String, String>> table = IntStream.range(0, rowList.size())
                 .boxed()

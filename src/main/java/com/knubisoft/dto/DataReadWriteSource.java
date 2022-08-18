@@ -1,2 +1,5 @@
-package com.knubisoft.dto;public interface DataReadWriteSource {
+package com.knubisoft.dto;
+
+public interface DataReadWriteSource<R> {
+    R getContent();
 }

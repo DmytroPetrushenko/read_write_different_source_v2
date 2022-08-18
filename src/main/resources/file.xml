@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<entities>
-    <entity>
+<persons>
+    <person>
         <id>1</id>
         <name>Bob</name>
         <birthDay>1981-07-24</birthDay>
-    </entity>
-    <entity>
+    </person>
+    <person>
         <id>2</id>
         <name>Alice</name>
         <birthDay>1985-04-14</birthDay>
-    </entity>
-</entities>
+    </person>
+</persons>
 
 

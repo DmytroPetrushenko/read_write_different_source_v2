@@ -3,18 +3,17 @@ package com.knubisoft.strategy.impl;
 import com.knubisoft.dto.DataReadWriteSource;
 import com.knubisoft.dto.Table;
 import com.knubisoft.dto.impl.FileReadWriteSource;
-import com.knubisoft.strategy.Strategy;
+import com.knubisoft.strategy.ReadStrategy;
 import com.opencsv.CSVReader;
-import lombok.SneakyThrows;
-import org.apache.commons.io.FilenameUtils;
-
 import java.io.StringReader;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import lombok.SneakyThrows;
+import org.apache.commons.io.FilenameUtils;
 
-public class StrategyCsv implements Strategy {
+public class ReadStrategyCsv implements ReadStrategy {
     @Override
     public boolean isApplied(DataReadWriteSource<?> data) {
         return data instanceof FileReadWriteSource

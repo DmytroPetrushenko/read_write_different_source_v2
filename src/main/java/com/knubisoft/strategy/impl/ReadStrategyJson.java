@@ -5,19 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.knubisoft.dto.DataReadWriteSource;
 import com.knubisoft.dto.Table;
 import com.knubisoft.dto.impl.FileReadWriteSource;
-import com.knubisoft.strategy.Strategy;
+import com.knubisoft.strategy.ReadStrategy;
 import com.knubisoft.utils.JacksonTableBuilderUtils;
-
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import lombok.SneakyThrows;
 import org.apache.commons.io.FilenameUtils;
 
-public class StrategyJson implements Strategy {
+public class ReadStrategyJson implements ReadStrategy {
     private final JacksonTableBuilderUtils builder = JacksonTableBuilderUtils.getBuilder();
 
     @Override
