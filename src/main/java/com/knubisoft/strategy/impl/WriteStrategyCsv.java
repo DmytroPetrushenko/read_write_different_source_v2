@@ -26,7 +26,7 @@ public class WriteStrategyCsv implements WriteStrategy {
     public <T> void writeDataToFile(DataReadWriteSource<?> data, List<T> list) {
         String path = ((FileReadWriteSource) data).getFile().getPath();
         CSVWriter writer = new CSVWriter(new FileWriter(path));
-        String[] names = getNamesFromEntity(list);
+        String[] names = getRowNamesFromEntity(list);
         writer.writeAll(convertEntitiesToList(names, list));
         writer.flush();
         writer.close();
@@ -37,11 +37,11 @@ public class WriteStrategyCsv implements WriteStrategy {
         result.add(names);
         IntStream.range(0, list.size())
                 .boxed()
-                .forEach(index -> result.add(createArrayFromEntity(names, list.get(index))));
+                .forEach(index -> result.add(createRowValuesFromEntity(names, list.get(index))));
         return result;
     }
 
-    private <T> String[] createArrayFromEntity(String[]names, T object) {
+    private <T> String[] createRowValuesFromEntity(String[]names, T object) {
         return Arrays.stream(names)
                 .map(name -> getValues(object, name))
                 .toArray(String[]::new);
@@ -54,7 +54,7 @@ public class WriteStrategyCsv implements WriteStrategy {
         return String.valueOf(field.get(object));
     }
 
-    private <T> String[] getNamesFromEntity(List<T> list) {
+    private <T> String[] getRowNamesFromEntity(List<T> list) {
         return Arrays.stream(list.get(0).getClass().getDeclaredFields())
                 .map(Field::getName)
                 .toArray(String[]::new);

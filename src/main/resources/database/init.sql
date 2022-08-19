@@ -1,7 +1,6 @@
 create table persons
 (
-    id          bigint auto_increment
-        primary key,
-    name        varchar(255) not null,
-    column_name varchar(10)  not null
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    name        TEXT NOT NULL ,
+    column_name CHAR(10)  NOT NULL
 );
