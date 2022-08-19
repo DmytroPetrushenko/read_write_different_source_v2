@@ -15,8 +15,7 @@ public class ConnectionUtil {
     public Connection getConnection() {
         Properties dbProperties = getDbProperties();
         Class.forName(dbProperties.getProperty("db.driver"));
-        return DriverManager.getConnection(dbProperties.getProperty("db.url"),
-                dbProperties.getProperty("db.user"), dbProperties.getProperty("db.password"));
+        return DriverManager.getConnection(dbProperties.getProperty("db.url"));
     }
 
     @SneakyThrows

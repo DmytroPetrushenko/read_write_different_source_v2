@@ -29,8 +29,8 @@ public class Main {
         List<List<Person>> collect = filesNames.stream()
                 .map(Main::readFromFiles)
                 .collect(Collectors.toList());
-        workWithDatabase();
         collect.forEach(Main::writeToFile);
+        workWithDatabase();
 
     }
 
@@ -59,7 +59,7 @@ public class Main {
     @SneakyThrows
     private static void workWithDatabase() {
         ConnectionUtil util = new ConnectionUtil();
-        String query = "SELECT * FROM orm_db.persons";
+        String query = "SELECT * FROM persons";
         try (Connection connection = util.getConnection();
                  Statement statement = connection.createStatement()) {
             resultSet = statement.executeQuery(query);

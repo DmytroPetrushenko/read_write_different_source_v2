@@ -23,8 +23,8 @@ public class DaoImpl implements Dao {
         Class<?> clazz = list.get(0).getClass();
         String name = clazz.getAnnotation(Table.class).name();
         Field[] fields = clazz.getDeclaredFields();
-        String drop = "drop table if exists " + name + ";";
-        String table = "create table " + name + "(id bigint auto_increment primary key);";
+        String drop = "DROP TABLE IF EXISTS " + name + ";";
+        String table = "CREATE TABLE " + name + "(id INTEGER PRIMARY KEY AUTOINCREMENT);";
         try (Connection con = util.getConnection();
                 Statement statement = con.createStatement()) {
             statement.executeUpdate(drop);
