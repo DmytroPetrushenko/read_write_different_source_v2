@@ -7,6 +7,7 @@ import com.knubisoft.dto.DataReadWriteSource;
 import com.knubisoft.dto.Table;
 import com.knubisoft.dto.impl.FileReadWriteSource;
 import com.knubisoft.strategy.ReadStrategy;
+import com.knubisoft.utils.JacksonMapperUtil;
 import com.knubisoft.utils.JacksonTableBuilderUtils;
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
@@ -17,6 +18,7 @@ import org.apache.commons.io.FilenameUtils;
 
 public class ReadStrategyXml implements ReadStrategy {
     private final JacksonTableBuilderUtils builder = JacksonTableBuilderUtils.getBuilder();
+    private final JacksonMapperUtil mapperUtil = new JacksonMapperUtil();
 
     @Override
     public boolean isApplied(DataReadWriteSource<?> data) {
@@ -47,7 +49,7 @@ public class ReadStrategyXml implements ReadStrategy {
 
     @SneakyThrows
     private JsonNode createNodeTree(String file, String name) {
-        XmlMapper mapper = new XmlMapper();
+        XmlMapper mapper = mapperUtil.getXmlMapper();
         JsonNode mainNode = mapper.readTree(file);
         return mainNode.get(name);
     }
